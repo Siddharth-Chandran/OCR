@@ -18,15 +18,7 @@ public class Application implements CommandLineRunner {
     public static int fileCount = 0;
     public static Map<String, List<String>> alertDetails = new HashMap<>();
     public static boolean refreshThread = true;
-    public static List<String> lexicons = Arrays.asList(
-            "Mafia",
-            "stock is going up",
-            "buy stock",
-            "will go down",
-            "dance",
-            "what",
-            "the"
-    );
+
     @Autowired
     BusinessLogic businessLogic;
 
@@ -42,4 +34,13 @@ public class Application implements CommandLineRunner {
             refreshThread = true;
         }
     }
+
+    public static List<String> lexicons = Arrays.asList(
+            "Mafia",
+            "stock is going up",
+            "buy stock",
+            "will go down",
+            "look hot today",
+            "going up"
+    );
 }
