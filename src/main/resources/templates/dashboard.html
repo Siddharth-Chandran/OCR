@@ -143,7 +143,6 @@
 
 
     function image(img) {
-        console.log("Here");
         modal.style.display = "block";
         modalImg.src = img.src;
     }
@@ -156,7 +155,15 @@
 
     $(document).ready(function () {
         createImages();
+        $("#refreshButton").click(function (event) {
+            event.preventDefault();
+            updateAlertData();
+        });
     });
+
+    function updateAlertData() {
+        $.get("/updateAlertData");
+    }
 
 
     function createImages() {

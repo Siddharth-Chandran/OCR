@@ -109,6 +109,13 @@ public class WebController {
         return words.get(0).getText().trim();
     }
 
+    @RequestMapping(value = "/updateAlertData", method = RequestMethod.GET)
+    @ResponseBody
+    public void updateAlertData() throws IOException {
+
+        if (Application.refreshThread) businessLogic.processImages();
+    }
+
     @RequestMapping(value = "/getAlerts", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, List<String>> getAlerts() throws IOException {

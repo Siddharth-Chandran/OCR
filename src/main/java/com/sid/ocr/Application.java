@@ -7,21 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
-public class Application implements CommandLineRunner{
-
-    @Autowired
-    BusinessLogic businessLogic;
+public class Application implements CommandLineRunner {
 
     public static int fileCount = 0;
     public static Map<String, List<String>> alertDetails = new HashMap<>();
-
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-
+    public static boolean refreshThread = true;
     public static List<String> lexicons = Arrays.asList(
             "Mafia",
             "stock is going up",
@@ -31,9 +27,19 @@ public class Application implements CommandLineRunner{
             "what",
             "the"
     );
+    @Autowired
+    BusinessLogic businessLogic;
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
     @Override
     public void run(String... strings) throws Exception {
-        businessLogic.processImages();
+        if (refreshThread) {
+            refreshThread = false;
+            businessLogic.processImages();
+            refreshThread = true;
+        }
     }
 }

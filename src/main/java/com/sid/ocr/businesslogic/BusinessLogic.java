@@ -76,7 +76,7 @@ public class BusinessLogic {
 
             try {
                 ImageIO.write(ImageIO.read(sourceFile), "jpg", new File(Paths.get(processedPath, Application.fileCount + ".jpg").toString()));
-//                sourceFile.delete();
+                sourceFile.delete();
             } catch (IOException e) {
                 e.printStackTrace();
             }
