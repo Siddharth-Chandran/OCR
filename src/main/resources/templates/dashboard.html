@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>OCR-Dashboard</title>
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script th:src="@{js/jquery/2.1.3/jquery.min.js}"></script>
+    <style>
+        #myImg {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #myImg:hover {
+            opacity: 0.7;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+        }
+
+        /* Modal Content (image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        /* Caption of Modal Image */
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+
+        /* Add Animation */
+        .modal-content, #caption {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @-webkit-keyframes zoom {
+            from {
+                -webkit-transform: scale(0)
+            }
+            to {
+                -webkit-transform: scale(1)
+            }
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+            to {
+                transform: scale(1)
+            }
+        }
+
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 100% Image Width on Smaller Screens */
+        @media only screen and (max-width: 700px) {
+            .modal-content {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body style="padding-left: 30px; padding-right:30px;">
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Hackathon</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/tutorial">Tutorial</a></li>
+                <li class="active"><a href="/dashboard">Dashboard</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <button class="btn btn-danger navbar-btn" id="refreshButton">Refresh</button>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" id="images">
+    <!--<img src="C:Hackathon\OCR\TEMP\processed\1.jpg" width="300" height="200" onClick="image(this)"/>-->
+    <!--<img src="C:\Hackathon\OCR\TEMP\processed\2.jpg" width="300" height="200" onClick="image(this)"/>-->
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01"/>
+    <div id="caption"></div>
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+    var modal = document.getElementById('myModal');
+
+    var modalImg = document.getElementById("img01");
+
+
+    function image(img) {
+        console.log("Here");
+        modal.style.display = "block";
+        modalImg.src = img.src;
+    }
+
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    $(document).ready(function () {
+        createImages();
+        $("#img").on('click', function (data) {
+            console.log("Clicked");
+            image(data);
+        })
+    });
+
+
+    function createImages() {
+
+        $.get("/getAlerts", function (data) {
+            $.each(data, function (key, value) {
+
+                $("#images").append("<h4>" + key + "</h4>");
+                $.each(value, function (index, alert) {
+
+                    $(document.createElement("img"))
+                        .attr({src: 'data:image/jpg;base64,' + alert, width:300, height:200})
+                        .appendTo("#images")
+                        .click(function () {
+                            image(this);
+                        })
+                })
+            })
+        })
+    }
+</script>
+
+</body>
+</html>
