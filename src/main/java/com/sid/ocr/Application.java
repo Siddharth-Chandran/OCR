@@ -37,10 +37,18 @@ public class Application implements CommandLineRunner {
 
     public static List<String> lexicons = Arrays.asList(
             "Mafia",
-            "stock is going up",
+            "stock",
             "buy stock",
             "will go down",
-            "look hot today",
-            "going up"
+            "look hot",
+            "going up",
+            "loser",
+            "funding",
+            "investment",
+            "microsoft",
+            "Pole and Santa Claus",
+            "and",
+            "dance"
+
     );
 }
